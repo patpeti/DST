@@ -1,0 +1,6 @@
+{ 
+  "job_id" : 1,
+  "last_updated" : 1329469221971,
+  "logs" : { 
+    "log_set" : [ "Starting" , "Running" , "Still Running" , "Finished"]}
+}

@@ -1,0 +1,22 @@
+{
+  "job_id" : 3,
+  "last_updated" :  1329469231921,
+  "alignment_block" : { 
+    "alignment_nr" : 0,
+    "primary" : {
+      "chromosome" : "chr11",
+      "start" : 3001012,
+      "end" : 3001075
+    },
+    "align" : {
+      "chromosome" : "chr13",
+      "start" : 70568380,
+      "end" : 70568443
+    },
+    "blastz" : 3500,
+    "seq" : [
+      "TCAGCTCATAAATCACCTCCTGCCACAAGCCTGGCCTGGTCCCAGGAGAGTGTCCAGGCTCAGA",
+      "TCTGTTCATAAACCACCTGCCATGACAAGCCTGGCCTGTTCCCAAGACAATGTCCAGGCTCAGA"
+     ]
+  }
+}
