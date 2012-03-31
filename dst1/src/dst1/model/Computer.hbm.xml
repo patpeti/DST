@@ -6,7 +6,7 @@
     <class name="dst1.model.Computer" table="COMPUTER">
         <id name="id" type="java.lang.Long" access="field">
             <column name="ID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <property name="name" type="java.lang.String" access="field">
             <column name="NAME" />
@@ -24,6 +24,14 @@
             <column name="LASTUPDATE" />
         </property>
         <many-to-one name="cluster" class="dst1.model.Cluster"><column name="Cluster" /></many-to-one>
-        <many-to-one name="execution" class="dst1.model.Execution"><column name="Execution" /></many-to-one>
+        <!-- A bidirectional association allows navigation from both "ends" of the association. Two kinds of bidirectional association are supported:
+				...	
+				many-to-many
+				set or bag valued at both ends
+		 -->
+        <bag name="executions" inverse="true" table="computer_execution">
+        	<key column="computer_id"/>
+        	<many-to-many column="execution_id" class="dst1.model.Execution" />
+        </bag>
     </class>
 </hibernate-mapping>

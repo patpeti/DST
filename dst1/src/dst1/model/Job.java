@@ -1,8 +1,11 @@
 package dst1.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -12,7 +15,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
-public class Job {
+public class Job implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	@Id
 	@GeneratedValue
@@ -25,9 +34,8 @@ public class Job {
 	@ManyToOne
 	@JoinColumns(@JoinColumn(name = "user_id"))
 	private User user;
-	
-	@OneToOne
-	private Execution execution;
+	@OneToOne(mappedBy = "job", fetch = FetchType.EAGER)
+	public Execution execution;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -92,5 +100,6 @@ public class Job {
 	public void setExecution(Execution execution) {
 		this.execution = execution;
 	}
+	
 	
 }

@@ -28,7 +28,7 @@ public class User extends Person{
 //	private Address address;
 
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany
 	private List<Job> jobs;
 	@Column(name = "accountNo")
 	private String accountNo;
@@ -95,6 +95,23 @@ public class User extends Person{
 	public void setJobs(List<Job> jobs) {
 		this.jobs = jobs;
 	}
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public String getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
+	
 	
 	
 }

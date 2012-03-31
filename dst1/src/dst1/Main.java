@@ -2,13 +2,16 @@ package dst1;
 
 import java.util.HashMap;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.ejb.Ejb3Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import dst1.model.Address;
+import dst1.model.User;
+import dst1.sub.CrudTest;
 
 public class Main {
 	
@@ -34,12 +37,22 @@ public class Main {
 		dst05b();
 		dst05c();
 	}
-
+	
 	public static void dst01() {
 		Ejb3Configuration config = new Ejb3Configuration();
 		config.configure( "grid", new HashMap() );
 		emf = config.buildEntityManagerFactory();
 		em = emf.createEntityManager();
+	
+		
+
+		
+		CrudTest c = new CrudTest(em);
+		c.createTest();
+		c.retrieveTest();
+		c.updateTest();
+		c.deleteTest();
+	
 	}
 
 	public static void dst02a() {

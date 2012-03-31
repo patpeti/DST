@@ -3,14 +3,20 @@ package dst1.model;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import dst1.model.enums.JobStatus;
 
@@ -24,8 +30,11 @@ public class Execution {
 	private Date end;
 	@Enumerated
 	private JobStatus status;
-	@OneToOne
-	private Job job;
+	
+
+	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true)
+	public Job job;
+	
 	@ManyToMany
 	@JoinTable(name="computer_execution", joinColumns = @JoinColumn(name = "execution_id"),
 										  inverseJoinColumns = @JoinColumn(name = "computer_id"))

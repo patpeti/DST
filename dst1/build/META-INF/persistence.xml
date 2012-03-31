@@ -16,6 +16,7 @@
    			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" /> -->
    			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
    			<property name="hibernate.show_sql" value="false" />
+   			<!-- TODO set to create -->
    			<property name="hibernate.hbm2ddl.auto" value="create"/>
    			<property name="javax.persistence.validation.mode" value="none"/>
    			<property name="hibernate.ejb.interceptor" value="dst1.interceptor.SQLInterceptor"/>
