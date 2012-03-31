@@ -24,6 +24,11 @@
             <column name="LASTUPDATE" />
         </property>
         <many-to-one name="cluster" class="dst1.model.Cluster"><column name="Cluster" /></many-to-one>
+        <!-- A bidirectional association allows navigation from both "ends" of the association. Two kinds of bidirectional association are supported:
+				...	
+				many-to-many
+				set or bag valued at both ends
+		 -->
         <bag name="executions" inverse="true" table="computer_execution">
         	<key column="computer_id"/>
         	<many-to-many column="execution_id" class="dst1.model.Execution" />

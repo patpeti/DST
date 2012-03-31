@@ -2,6 +2,7 @@ package dst1.model;
 
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,8 +20,8 @@ public class Grid {
 	private String name;
 	private String location;
 	private BigInteger costsPerCPUMinute;
-	@OneToMany
-	private Collection<Cluster> clusters;
+	@OneToMany(mappedBy = "grid")
+	private List<Cluster> clusters;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -49,10 +50,10 @@ public class Grid {
 	public void setCostsPerCPUMinute(BigInteger costsPerCPUMinute) {
 		this.costsPerCPUMinute = costsPerCPUMinute;
 	}
-	public Collection<Cluster> getClusters() {
+	public List<Cluster> getClusters() {
 		return clusters;
 	}
-	public void setClusters(Collection<Cluster> clusters) {
+	public void setClusters(List<Cluster> clusters) {
 		this.clusters = clusters;
 	}
 	

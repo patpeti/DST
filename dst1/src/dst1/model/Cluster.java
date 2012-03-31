@@ -30,8 +30,11 @@ public class Cluster {
 	private Collection<Cluster> childClusters;
 	
 	@ManyToOne
+	@JoinColumn(name = "admin_fk")
 	private Admin admin;
+	
 	@ManyToOne
+	@JoinColumn(name = "grid_fk")
 	private Grid grid;
 	
 	@OneToMany
@@ -81,21 +84,17 @@ public class Cluster {
 		this.childClusters = childClusters;
 	}
 
+	
 	public Admin getAdmin() {
 		return admin;
 	}
 
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
-	}
-
+	
 	public Grid getGrid() {
 		return grid;
 	}
 
-	public void setGrid(Grid grid) {
-		this.grid = grid;
-	}
+
 
 	public Collection<Computer> getComputers() {
 		return computers;

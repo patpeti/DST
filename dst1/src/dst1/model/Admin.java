@@ -1,10 +1,8 @@
 package dst1.model;
 
-import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -19,8 +17,8 @@ public class Admin extends Person {
 //	private String lastName;
 //	@Embedded
 //	private Address address;
-	@OneToMany
-	private Collection<Cluster> clusters;
+	@OneToMany(mappedBy = "admin")
+	private Set<Cluster> clusters;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -49,10 +47,10 @@ public class Admin extends Person {
 //	public void setAddress(Address address) {
 //		this.address = address;
 //	}
-	public Collection<Cluster> getClusters() {
+	public Set<Cluster> getClusters() {
 		return clusters;
 	}
-	public void setClusters(Collection<Cluster> clusters) {
+	public void setClusters(Set<Cluster> clusters) {
 		this.clusters = clusters;
 	}
 	
