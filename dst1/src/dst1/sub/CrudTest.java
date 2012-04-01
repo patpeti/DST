@@ -8,13 +8,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 
 import dst1.model.Address;
 import dst1.model.Admin;
+import dst1.model.Cluster;
 import dst1.model.Computer;
 import dst1.model.Environment;
 import dst1.model.Execution;
@@ -212,7 +211,6 @@ public class CrudTest {
 		
 		
 		
-		//TODO set Computers for execution
 		
 		/*
 		 *  Check Job-Execution association - OK (Execution-Job are connected trough Job_id in Execution Table)
@@ -255,12 +253,12 @@ public class CrudTest {
 		ex6.setJob(j6);
 		ex6.setStatus(JobStatus.RUNNING);
 		
-		j1.setExecution(ex1);
-		j2.setExecution(ex2);
-		j3.setExecution(ex3);
-		j4.setExecution(ex4);
-		j5.setExecution(ex5);
-		j6.setExecution(ex6);
+//		j1.setExecution(ex1);
+//		j2.setExecution(ex2);
+//		j3.setExecution(ex3);
+//		j4.setExecution(ex4);
+//		j5.setExecution(ex5);
+//		j6.setExecution(ex6);
 		
 		em.persist(ex1);
 		em.persist(ex2);
@@ -396,7 +394,7 @@ public class CrudTest {
 		c1.setCpus(new Integer(4));
 		c1.setCreation(new Date());
 		List<Execution> exColl1 = new ArrayList<Execution>();
-		exColl1.add(ex1);
+		exColl1.add(ex5);
 		c1.setExecutions(exColl1);
 		c1.setLastUpdate(new Date());
 		c1.setLocation("AUT-VIE");
@@ -407,7 +405,6 @@ public class CrudTest {
 		Computer c2 = new Computer();
 		c2.setCpus(new Integer(16));
 		c2.setCreation(new Date());
-		//c2.setExecution(ex2);
 		c2.setLastUpdate(new Date());
 		c2.setLocation("AUT-VIE");
 		c2.setName("c2");
@@ -417,7 +414,6 @@ public class CrudTest {
 		Computer c3 = new Computer();
 		c3.setCpus(new Integer(32));
 		c3.setCreation(new Date());
-		//c3.setExecution(ex1);
 		c3.setLastUpdate(new Date());
 		c3.setLocation("GB-LON");
 		c3.setName("c3");
@@ -427,7 +423,6 @@ public class CrudTest {
 		Computer c4 = new Computer();
 		c4.setCpus(new Integer(32));
 		c4.setCreation(new Date());
-		//c4.setExecution(ex1);
 		c4.setLastUpdate(new Date());
 		c4.setLocation("GB-LON");
 		c4.setName("c4");
@@ -437,7 +432,6 @@ public class CrudTest {
 		Computer c5 = new Computer();
 		c5.setCpus(new Integer(32));
 		c5.setCreation(new Date());
-		//c5.setExecution(ex3);
 		c5.setLastUpdate(new Date());
 		c5.setLocation("HU-BUD");
 		c5.setName("c5");
@@ -447,7 +441,6 @@ public class CrudTest {
 		Computer c6 = new Computer();
 		c6.setCpus(new Integer(32));
 		c6.setCreation(new Date());
-		//c6.setExecution(ex4);
 		c6.setLastUpdate(new Date());
 		c6.setLocation("HU-BUD");
 		c6.setName("c6");
@@ -457,7 +450,6 @@ public class CrudTest {
 		Computer c7 = new Computer();
 		c7.setCpus(new Integer(32));
 		c7.setCreation(new Date());
-		//c7.setExecution(ex5);
 		c7.setLastUpdate(new Date());
 		c7.setLocation("HU-BUD");
 		c7.setName("c7");
@@ -467,45 +459,128 @@ public class CrudTest {
 		Computer c8 = new Computer();
 		c8.setCpus(new Integer(32));
 		c8.setCreation(new Date());
-		//c8.setExecution(ex6);
-		c8.setLastUpdate(new Date());
+			c8.setLastUpdate(new Date());
 		c8.setLocation("HU-BUD");
 		c8.setName("c8");
 		
 		em.persist(c8);
 		
-		Collection<Computer> comps1 = new ArrayList<Computer>();
+		//executions-computers connection
+		
+		List<Computer> comps1 = new ArrayList<Computer>();
 		comps1.add(c1);
 		comps1.add(c3);
 		comps1.add(c4);
 		
 		ex1.setComputers(comps1);
 		
-		Collection<Computer> comps2 = new ArrayList<Computer>();
+		List<Computer> comps2 = new ArrayList<Computer>();
 		comps2.add(c2);
 		ex2.setComputers(comps2);
 		
-		Collection<Computer> comps3 = new ArrayList<Computer>();
+		List<Computer> comps3 = new ArrayList<Computer>();
 		comps3.add(c5);
 		ex3.setComputers(comps3);
 		
-		Collection<Computer> comps4 = new ArrayList<Computer>();
+		List<Computer> comps4 = new ArrayList<Computer>();
 		comps4.add(c6);
 		ex4.setComputers(comps4);
 		
-		Collection<Computer> comps5 = new ArrayList<Computer>();
+		List<Computer> comps5 = new ArrayList<Computer>();
 		comps5.add(c7);
 		ex5.setComputers(comps5);
 		
-		Collection<Computer> comps6 = new ArrayList<Computer>();
+		List<Computer> comps6 = new ArrayList<Computer>();
 		comps6.add(c8);
 		ex6.setComputers(comps6);
 		
-		em.getTransaction().commit();
-		//em.close();
+		//Add Clusters
+		/**
+		 * check name uniqueness - OK
+		 */
 		
-		Computer returnComputer = em.find(Computer.class,new Long(1));
-		System.out.println(""+returnComputer.getExecutions());
+		Cluster cl1 = new Cluster();
+		cl1.setName("Vienna-cluster");
+		cl1.setNextService(new Date());
+		cl1.setLastService(new Date());
+		
+		em.persist(cl1);
+		
+		Cluster cl2 = new Cluster();
+		cl2.setName("London-cluster");
+		cl2.setNextService(new Date());
+		cl2.setLastService(new Date());
+		
+		em.persist(cl2);
+		
+		Cluster cl3 = new Cluster();
+		cl3.setName("Budapest-cluster");
+		cl3.setNextService(new Date());
+		cl3.setLastService(new Date());
+		
+		em.persist(cl3);
+		
+		Cluster cl4 = new Cluster();
+		cl4.setName("Budapest2-cluster");
+		cl4.setNextService(new Date());
+		cl4.setLastService(new Date());
+		
+		em.persist(cl4);
+		
+		Cluster cl5 = new Cluster();
+		cl5.setName("Vienna2-cluster");
+		cl5.setNextService(new Date());
+		cl5.setLastService(new Date());
+		
+		em.persist(cl5);
+		
+		//connect grid-clusters (1-n)
+		
+		List<Cluster> clusters1 = new ArrayList<Cluster>();
+		clusters1.add(cl1);
+		clusters1.add(cl2);
+		g1.setClusters(clusters1);
+		
+		List<Cluster> clusters2 = new ArrayList<Cluster>();
+		clusters2.add(cl3);
+	
+		g2.setClusters(clusters2);
+		
+		List<Cluster> clusters3 = new ArrayList<Cluster>();
+		clusters3.add(cl4);
+		clusters3.add(cl5);
+		g3.setClusters(clusters3);
+		
+		
+		
+		//connect admin-cluster (1-n)
+		
+		ad1.setClusters(clusters1);
+		ad2.setClusters(clusters2);
+		ad3.setClusters(clusters3);
+		
+		
+		//connect cluster-computers (1-n)
+		
+		cl1.setComputers(comps1);
+		cl2.setComputers(comps2);
+		cl3.setComputers(comps3);
+		cl4.setComputers(comps4);
+		cl5.setComputers(comps5);
+		
+		
+		//connect cluster-cluster (n-n)
+		
+		cl1.setChildClusters(clusters3);
+		
+		
+		em.getTransaction().commit();
+		em.close();
+		
+//		Computer returnComputer = em.find(Computer.class,new Long(1));
+//		System.out.println(""+returnComputer.getExecutions().size());
+//		Computer returnComputer2 = em.find(Computer.class,new Long(2));
+//		System.out.println(""+returnComputer2.getExecutions().size());
 		
 	}
 	

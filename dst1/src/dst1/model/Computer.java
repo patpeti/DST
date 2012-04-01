@@ -1,6 +1,7 @@
 package dst1.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Computer implements Serializable{
 	private Date creation;
 	private Date lastUpdate;
 	private Cluster cluster;
-	private List<Execution> executions;
+	private List<Execution> executions = new ArrayList<Execution>();
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -64,6 +65,9 @@ public class Computer implements Serializable{
 		return executions;
 	}
 	public void setExecutions(List<Execution> executions) {
+		for(Execution e : executions){
+			e.getComputers().add(this);
+		}
 		this.executions = executions;
 	}
 	

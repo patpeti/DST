@@ -20,7 +20,7 @@ public class Grid {
 	private String name;
 	private String location;
 	private BigInteger costsPerCPUMinute;
-	@OneToMany(mappedBy = "grid")
+	@OneToMany
 	private List<Cluster> clusters;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
@@ -54,6 +54,9 @@ public class Grid {
 		return clusters;
 	}
 	public void setClusters(List<Cluster> clusters) {
+		for(Cluster c : clusters){
+			c.setGrid(this);
+		}
 		this.clusters = clusters;
 	}
 	

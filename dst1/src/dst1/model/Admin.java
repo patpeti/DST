@@ -1,6 +1,6 @@
 package dst1.model;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -17,8 +17,8 @@ public class Admin extends Person {
 //	private String lastName;
 //	@Embedded
 //	private Address address;
-	@OneToMany(mappedBy = "admin")
-	private Set<Cluster> clusters;
+	@OneToMany
+	private List<Cluster> clusters;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -47,10 +47,13 @@ public class Admin extends Person {
 //	public void setAddress(Address address) {
 //		this.address = address;
 //	}
-	public Set<Cluster> getClusters() {
+	public List<Cluster> getClusters() {
 		return clusters;
 	}
-	public void setClusters(Set<Cluster> clusters) {
+	public void setClusters(List<Cluster> clusters) {
+		for(Cluster c : clusters){
+			c.setAdmin(this);
+		}
 		this.clusters = clusters;
 	}
 	

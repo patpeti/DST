@@ -1,7 +1,8 @@
 package dst1.model;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,10 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import dst1.model.enums.JobStatus;
 
@@ -38,7 +35,7 @@ public class Execution {
 	@ManyToMany
 	@JoinTable(name="computer_execution", joinColumns = @JoinColumn(name = "execution_id"),
 										  inverseJoinColumns = @JoinColumn(name = "computer_id"))
-	private Collection<Computer> computers;
+	private List<Computer> computers = new ArrayList<Computer>();
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -72,12 +69,17 @@ public class Execution {
 		return job;
 	}
 	public void setJob(Job job) {
+		//setting backreference
+		job.setExecution(this);
 		this.job = job;
 	}
-	public Collection<Computer> getComputers() {
+	public List<Computer> getComputers() {
 		return computers;
 	}
-	public void setComputers(Collection<Computer> computers) {
+	public void setComputers(List<Computer> computers) {
+		for(Computer c : computers){
+			c.getExecutions().add(this);
+		}
 		this.computers = computers;
 	}
 	
