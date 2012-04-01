@@ -1,6 +1,7 @@
 package dst1.model;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class Grid {
 	private BigInteger costsPerCPUMinute;
 	@OneToMany
 	private List<Cluster> clusters;
+	@OneToMany
+	private List<Membership> membership = new ArrayList<Membership>();
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -59,6 +62,13 @@ public class Grid {
 		}
 		this.clusters = clusters;
 	}
+	public List<Membership> getMembership() {
+		return membership;
+	}
+	public void setMembership(List<Membership> membership) {
+		this.membership = membership;
+	}
+	
 	
 	
 	

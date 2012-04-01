@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +19,6 @@ import dst1.model.Execution;
 import dst1.model.Grid;
 import dst1.model.Job;
 import dst1.model.Membership;
-import dst1.model.MembershipId;
 import dst1.model.User;
 import dst1.model.enums.JobStatus;
 
@@ -327,10 +325,9 @@ public class CrudTest {
 		Membership m1 = new Membership();
 		m1.setDiscount(new Double(10));
 		m1.setRegistration(new Date());
-		MembershipId mId1 = new MembershipId();
-		mId1.setGrid(g1);
-		mId1.setUser(u1);
-		m1.setId(mId1);
+		m1.setGrid(g1);
+		m1.setUser(u1);
+
 		
 		em.persist(m1);
 		
@@ -338,50 +335,44 @@ public class CrudTest {
 		Membership m2 = new Membership();
 		m2.setDiscount(new Double(20));
 		m2.setRegistration(new Date());
-		MembershipId mId2 = new MembershipId();
-		mId2.setGrid(g1);
-		mId2.setUser(u2);
-		m2.setId(mId2);
+		m2.setGrid(g1);
+		m2.setUser(u2);
+
 		
 		em.persist(m2);
 		
 		Membership m3 = new Membership();
 		m3.setDiscount(new Double(10));
 		m3.setRegistration(new Date());
-		MembershipId mId3 = new MembershipId();
-		mId3.setGrid(g1);
-		mId3.setUser(u3);
-		m3.setId(mId3);
+		m3.setGrid(g1);
+		m3.setUser(u3);
+
 		
 		em.persist(m3);
 		
 		Membership m4 = new Membership();
 		m4.setDiscount(new Double(10));
 		m4.setRegistration(new Date());
-		MembershipId mId4 = new MembershipId();
-		mId4.setGrid(g2);
-		mId4.setUser(u1);
-		m4.setId(mId4);
+		m4.setGrid(g2);
+		m4.setUser(u1);
+
 		
 		em.persist(m4);
 		
 		Membership m5 = new Membership();
 		m5.setDiscount(new Double(10));
 		m5.setRegistration(new Date());
-		MembershipId mId5 = new MembershipId();
-		mId5.setGrid(g2);
-		mId5.setUser(u2);
-		m5.setId(mId5);
+		m5.setGrid(g2);
+		m5.setUser(u2);
 		
-		em.persist(m4);
+		em.persist(m5);
 		
 		Membership m6 = new Membership();
 		m6.setDiscount(new Double(10));
 		m6.setRegistration(new Date());
-		MembershipId mId6 = new MembershipId();
-		mId6.setGrid(g3);
-		mId6.setUser(u3);
-		m6.setId(mId6);
+		m6.setGrid(g3);
+		m6.setUser(u3);
+
 		
 		em.persist(m6);
 		
@@ -575,7 +566,7 @@ public class CrudTest {
 		
 		
 		em.getTransaction().commit();
-		em.close();
+		//em.close();
 		
 //		Computer returnComputer = em.find(Computer.class,new Long(1));
 //		System.out.println(""+returnComputer.getExecutions().size());
@@ -585,7 +576,28 @@ public class CrudTest {
 	}
 	
 	public void retrieveTest() {
-		// TODO Auto-generated method stub
+		Admin retrievedAdmin = em.find(Admin.class, new Long(4));
+		System.out.println(" Admin name: "+retrievedAdmin.getFirstName() + retrievedAdmin.getLastName());
+		System.out.println("Admin adress: "+retrievedAdmin.getAddress().getCity() + retrievedAdmin.getAddress().getStreet() + retrievedAdmin.getAddress().getZipCode());
+		
+		List<Cluster> retrievedClusters = retrievedAdmin.getClusters();
+		for(Cluster c : retrievedClusters){
+			System.out.println(" Clusters from admin: ");
+			System.out.println(" Cluster name: "+c.getName()+ " admin name:" + c.getAdmin().getFirstName());
+			
+			System.out.println(" Grid of culster: ");
+			System.out.println("  " + c.getGrid().getName());
+			
+			System.out.println(" Users of Grid: ");
+			//for(User u : c.getGrid().ge)
+			
+			System.out.println(" Computers from culster: ");
+			
+			for(Computer retrievedComputer : c.getComputers()){
+				System.out.println(" computer location " + retrievedComputer.getLocation());
+			}
+			
+		}
 		
 	}
 	

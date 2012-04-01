@@ -1,5 +1,6 @@
 package dst1.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -35,7 +36,8 @@ public class User extends Person{
 	@Column(name = "bankCode")
 	private String bankCode;
 	
-	
+	@OneToMany
+	private List<Membership> membership = new ArrayList<Membership>();
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
@@ -110,6 +112,14 @@ public class User extends Person{
 
 	public void setBankCode(String bankCode) {
 		this.bankCode = bankCode;
+	}
+
+	public List<Membership> getMembership() {
+		return membership;
+	}
+
+	public void setMembership(List<Membership> membership) {
+		this.membership = membership;
 	}
 	
 	

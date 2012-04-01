@@ -2,34 +2,28 @@ package dst1.model;
 
 import java.util.Date;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
-//This here is redundant but whatever...
-@AssociationOverrides({
-	@AssociationOverride(name = "id.user", joinColumns = @JoinColumn(name = "user_id")),
-	@AssociationOverride(name = "id.grid", joinColumns = @JoinColumn(name = "grid_id"))
-})
 public class Membership {
 
-	@EmbeddedId
-	private MembershipId id = new MembershipId();
+
+	@Id
+	@GeneratedValue
+	private Long id;
 	private Date registration;
 	private Double discount;
-	
+	@ManyToOne
+	private User user;
+	@ManyToOne
+	private Grid grid;
 	/*********************************************      GETTERS - SETTERS           *************************************************/
 	
 	
-	public MembershipId getId() {
-		return id;
-	}
-	public void setId(MembershipId id) {
-		this.id = id;
-	}
+
 	public Date getRegistration() {
 		return registration;
 	}
@@ -41,6 +35,26 @@ public class Membership {
 	}
 	public void setDiscount(Double discount) {
 		this.discount = discount;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		user.getMembership().add(this);
+		this.user = user;
+	}
+	public Grid getGrid() {
+		return grid;
+	}
+	public void setGrid(Grid grid) {
+		grid.getMembership().add(this);
+		this.grid = grid;
 	}
 	
 	
