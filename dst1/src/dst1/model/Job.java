@@ -29,9 +29,9 @@ public class Job implements Serializable {
 
 	
 	private boolean isPaid;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, optional = true)
 	private Environment environment;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumns(@JoinColumn(name = "user_id"))
 	private User user;
 	@OneToOne(mappedBy = "job", fetch = FetchType.EAGER)

@@ -32,7 +32,7 @@ public class Execution {
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true)
 	public Job job;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL) 
 	@JoinTable(name="computer_execution", joinColumns = @JoinColumn(name = "execution_id"),
 										  inverseJoinColumns = @JoinColumn(name = "computer_id"))
 	private List<Computer> computers = new ArrayList<Computer>();

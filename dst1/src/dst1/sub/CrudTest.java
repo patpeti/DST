@@ -19,6 +19,7 @@ import dst1.model.Execution;
 import dst1.model.Grid;
 import dst1.model.Job;
 import dst1.model.Membership;
+import dst1.model.Person;
 import dst1.model.User;
 import dst1.model.enums.JobStatus;
 
@@ -589,12 +590,28 @@ public class CrudTest {
 			System.out.println("  " + c.getGrid().getName());
 			
 			System.out.println(" Users of Grid: ");
-			//for(User u : c.getGrid().ge)
+			for(Membership m : c.getGrid().getMembership()){
+				
+				System.out.println(" User name: " + m.getUser().getLastName());
+				
+			}
 			
 			System.out.println(" Computers from culster: ");
 			
 			for(Computer retrievedComputer : c.getComputers()){
 				System.out.println(" computer location " + retrievedComputer.getLocation());
+				System.out.println(" computer name " + retrievedComputer.getName());
+				
+				System.out.println(" Executions on computer: ");
+				for(Execution e : retrievedComputer.getExecutions()){
+					System.out.println(" Execution startdate: " + e.getStart());
+					
+					
+					System.out.println(" Job of Execution: id: " + e.getJob().getId());
+					System.out.println(" Job of Execution: exTime: " + e.getJob().getExecutionTime());
+					System.out.println(" Job of Execution: numCPUS " + e.getJob().getNumCPUs());
+				}
+				
 			}
 			
 		}
@@ -603,10 +620,64 @@ public class CrudTest {
 	
 	public void updateTest(){
 		
+		Person retrievedPerson = em.find(Person.class, new Long(1));
+		retrievedPerson.setLastName("Oliver");
+		
+		Grid retrievedGrid = em.find(Grid.class, new Long(1));
+		retrievedGrid.setName("gridrenamed1");
+		
+		Computer retrievedComputer = em.find(Computer.class, new Long(2));
+		retrievedComputer.setName("renamedC3");
+		
+		Cluster retrievedCluster = em.find(Cluster.class, new Long(2));
+		retrievedCluster.setName("renamedCluster-London");
+		
+		Execution retrievedExecution = em.find(Execution.class, new Long(2));
+		retrievedExecution.setStatus(JobStatus.FINISHED);
+		
+		Environment retrievedEnvironment = em.find(Environment.class, new Long(1));
+		retrievedEnvironment.setWorkflow("Blbalrenamed");
+		
+		Job retrievedJob = em.find(Job.class, new Long(1));
+		retrievedJob.setPaid(true);
+		
+		User retrievedUser = em.find(User.class, new Long(1));
+		retrievedUser.setUsername("renameduser");
+			
+		//necessary?
+		em.getTransaction().begin();
+		em.persist(retrievedCluster);
+		em.persist(retrievedComputer);
+		em.persist(retrievedPerson);
+		em.persist(retrievedGrid);
+		em.persist(retrievedExecution);
+		em.persist(retrievedEnvironment);
+		em.persist(retrievedJob);
+		em.persist(retrievedUser);
+		em.getTransaction().commit();
+		
+		retrieveTest();
 	}
 	
 	public void deleteTest(){
 		
+//		Person retrievedPerson = em.find(Person.class, new Long(1));
+//		Grid retrievedGrid = em.find(Grid.class, new Long(1));
+//		Computer retrievedComputer = em.find(Computer.class, new Long(2));
+//		Cluster retrievedCluster = em.find(Cluster.class, new Long(2));
+//		Execution retrievedExecution = em.find(Execution.class, new Long(2));
+		Environment retrievedEnvironment = em.find(Environment.class, new Long(1));
+		Job retrievedJob = em.find(Job.class, new Long(1));
+		Job retrievedJob2 = em.find(Job.class, new Long(4));
+//		User retrievedUser = em.find(User.class, new Long(1));
+		retrievedJob.setEnvironment(null);
+		retrievedJob2.setEnvironment(null);
+		em.getTransaction().begin();
+		em.remove(retrievedEnvironment);
+		em.getTransaction().commit();
+		
+		
+	
 	}
 
 

@@ -2,6 +2,7 @@ package dst1.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ public class Membership {
 	private Long id;
 	private Date registration;
 	private Double discount;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
 	@ManyToOne
 	private Grid grid;

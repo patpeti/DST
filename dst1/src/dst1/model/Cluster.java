@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +46,7 @@ public class Cluster {
 	@JoinColumn(name = "grid_fk")
 	private Grid grid;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private Collection<Computer> computers;
 	
 	/*********************************************      GETTERS - SETTERS           *************************************************/
