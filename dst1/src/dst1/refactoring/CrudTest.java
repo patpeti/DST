@@ -1,4 +1,4 @@
-package dst1.sub;
+package dst1.refactoring;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

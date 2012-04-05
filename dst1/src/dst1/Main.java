@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import dst1.model.Address;
 import dst1.model.User;
-import dst1.sub.CrudTest;
+import dst1.refactoring.CrudTest;
 
 public class Main {
 	
