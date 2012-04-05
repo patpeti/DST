@@ -3,6 +3,7 @@ package dst1.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -30,7 +31,7 @@ public class User extends Person{
 
 	
 	@OneToMany
-	private List<Job> jobs;
+	private List<Job> jobs = new ArrayList<Job>();
 	@Column(name = "accountNo")
 	private String accountNo;
 	@Column(name = "bankCode")
@@ -95,7 +96,15 @@ public class User extends Person{
 	}
 
 	public void setJobs(List<Job> jobs) {
-		this.jobs = jobs;
+		if(jobs != null){
+			for(Job j : jobs){
+				j.setUser(this);
+			}
+			this.jobs = jobs;
+		}else{
+			this.jobs = new ArrayList<Job>();
+		}
+		
 	}
 
 	public String getAccountNo() {

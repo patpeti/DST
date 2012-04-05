@@ -4,9 +4,12 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.EntityManager;
 
@@ -150,7 +153,7 @@ public class CrudTest {
 		/*
 		 * Check Person-Admin, Person-User association - OK
 		 * 
-		 * TODO Add Clusters
+		 * 
 		 * 
 		 */
 		
@@ -174,8 +177,8 @@ public class CrudTest {
 		
 		//JOBS + EXECUTIONS
 		/*
-		 *  Check getNumCpu
-		 *  Check getExecutionTime
+		 *  Check getNumCpu OK
+		 *  Check getExecutionTime OK
 		 */
 		
 		Job j1 = new Job();
@@ -213,42 +216,42 @@ public class CrudTest {
 		
 		/*
 		 *  Check Job-Execution association - OK (Execution-Job are connected trough Job_id in Execution Table)
-		 *	TODO set reasonable dates
+		 *	TODO set reasonable dates ok
 		 */
 		
 		Execution ex1 = new Execution();
 		ex1.setStart(new Date());
-		ex1.setEnd(new Date());
+		ex1.setEnd(new Date(new Date().getTime()+10000));
 		ex1.setJob(j1);
 		ex1.setStatus(JobStatus.SCHEDULED);
 		
 		Execution ex2 = new Execution();
 		ex2.setStart(new Date());
-		ex2.setEnd(new Date());
+		ex2.setEnd(new Date(new Date().getTime()+20000));
 		ex2.setJob(j2);
 		ex2.setStatus(JobStatus.FINISHED);
 		
 		Execution ex3 = new Execution();
 		ex3.setStart(new Date());
-		ex3.setEnd(new Date());
+		ex3.setEnd(new Date(new Date().getTime()+30000));
 		ex3.setJob(j3);
 		ex3.setStatus(JobStatus.RUNNING);
 		
 		Execution ex4 = new Execution();
 		ex4.setStart(new Date());
-		ex4.setEnd(new Date());
+		ex4.setEnd(new Date(new Date().getTime()+40000));
 		ex4.setJob(j4);
 		ex4.setStatus(JobStatus.RUNNING);
 		
 		Execution ex5 = new Execution();
 		ex5.setStart(new Date());
-		ex5.setEnd(new Date());
+		ex5.setEnd(new Date(new Date().getTime()+50000));
 		ex5.setJob(j5);
 		ex5.setStatus(JobStatus.RUNNING);
 		
 		Execution ex6 = new Execution();
 		ex6.setStart(new Date());
-		ex6.setEnd(new Date());
+		ex6.setEnd(new Date(new Date().getTime()+60000));
 		ex6.setJob(j6);
 		ex6.setStatus(JobStatus.RUNNING);
 		
@@ -296,7 +299,7 @@ public class CrudTest {
 		
 		//Grids
 		/*
-		 *  TODO add Cluster
+		 *  TODO add Cluster -OK
 		 *  
 		 */
 		
@@ -379,7 +382,7 @@ public class CrudTest {
 		
 		//Computers
 		/*
-		 * TODO Add CLusters
+		 * TODO Add CLusters OK
 		 */
 		
 		Computer c1 = new Computer();
@@ -577,6 +580,7 @@ public class CrudTest {
 	}
 	
 	public void retrieveTest() {
+		em.getTransaction().begin();
 		Admin retrievedAdmin = em.find(Admin.class, new Long(4));
 		System.out.println(" Admin name: "+retrievedAdmin.getFirstName() + retrievedAdmin.getLastName());
 		System.out.println("Admin adress: "+retrievedAdmin.getAddress().getCity() + retrievedAdmin.getAddress().getStreet() + retrievedAdmin.getAddress().getZipCode());
@@ -615,7 +619,7 @@ public class CrudTest {
 			}
 			
 		}
-		
+		em.getTransaction().commit();
 	}
 	
 	public void updateTest(){
@@ -659,25 +663,129 @@ public class CrudTest {
 		retrieveTest();
 	}
 	
+	
 	public void deleteTest(){
 		
-//		Person retrievedPerson = em.find(Person.class, new Long(1));
-//		Grid retrievedGrid = em.find(Grid.class, new Long(1));
-//		Computer retrievedComputer = em.find(Computer.class, new Long(2));
-//		Cluster retrievedCluster = em.find(Cluster.class, new Long(2));
-//		Execution retrievedExecution = em.find(Execution.class, new Long(2));
-		Environment retrievedEnvironment = em.find(Environment.class, new Long(1));
-		Job retrievedJob = em.find(Job.class, new Long(1));
-		Job retrievedJob2 = em.find(Job.class, new Long(4));
-//		User retrievedUser = em.find(User.class, new Long(1));
-		retrievedJob.setEnvironment(null);
-		retrievedJob2.setEnvironment(null);
+
+		
+		
+		//remove JOB - OK
+
 		em.getTransaction().begin();
-		em.remove(retrievedEnvironment);
+		Job retrievedJob = em.find(Job.class, new Long(1));
+
+		retrievedJob.getExecution().setJob(null);
+		User u = retrievedJob.getUser();
+		List<Job> joblist = u.getJobs();
+		joblist.remove(retrievedJob);
+		u.setJobs(null);
+		u.setJobs(joblist);
+		
+	
+		em.remove(retrievedJob);
 		em.getTransaction().commit();
+		
+		//remove admin ok
+		
+		em.getTransaction().begin();
+		Admin retrievedAdmin = em.find(Admin.class, new Long(4));
+		for( Cluster cl :retrievedAdmin.getClusters()){
+			cl.setAdmin(null);
+		}
 		
 		
 	
+		em.remove(retrievedAdmin);
+		em.getTransaction().commit();
+		
+		//remove user + membership OK
+		
+		
+		User retrievedUser = em.find(User.class, new Long(1));
+		for(Job iJob : retrievedUser.getJobs()){
+			System.out.println("job id: " +iJob.getId());
+			System.out.println("user id for job: " +iJob.getUser().getId());
+			iJob.setUser(null);
+		}
+		retrievedUser.setJobs(null);
+		
+		List<Membership> memList = retrievedUser.getMembership();
+		for(Membership mem : memList){
+			Grid grid = mem.getGrid();
+			grid.getMembership().remove(mem);
+		
+		}
+		em.getTransaction().begin();
+		for(Membership mem : memList){
+			em.remove(mem);
+		}
+		
+		
+		em.remove(retrievedUser);
+		em.getTransaction().commit();
+		
+		//////////////////////////////////////////////
+		
+		
+		
+		//remove Execution + COmputer 
+		
+		em.getTransaction().begin();
+		Execution retrievedExecution = em.find(Execution.class, new Long(1));
+		retrievedExecution.setJob(null);
+
+		Computer retrievedComputer1 = em.find(Computer.class, new Long(1));
+		Computer retrievedComputer2 = em.find(Computer.class, new Long(3));
+		Computer retrievedComputer3 = em.find(Computer.class, new Long(4));
+		Cluster retrievedCluster1 = em.find(Cluster.class, new Long(1));
+		retrievedCluster1.setComputers(new ArrayList<Computer>());
+		
+
+		em.remove(retrievedComputer1);
+		em.remove(retrievedComputer2);
+		em.remove(retrievedComputer3);
+		
+		em.remove(retrievedExecution);
+		em.getTransaction().commit();
+		
+		//remove cluster
+		
+		em.getTransaction().begin();
+		Cluster retrievedCluster2 = em.find(Cluster.class, new Long(1));
+		
+		Cluster retrievedCluster4 = em.find(Cluster.class, new Long(4));
+		Cluster retrievedCluster5 = em.find(Cluster.class, new Long(5));
+		retrievedCluster4.setParentCluster(new ArrayList<Cluster>());
+		retrievedCluster5.setParentCluster(new ArrayList<Cluster>());
+		retrievedCluster2.setChildClusters(new ArrayList<Cluster>());
+		
+		
+		retrievedCluster2.setGrid(null);
+		
+		Grid retrievedGrid = em.find(Grid.class, new Long(1));
+		List<Cluster> clusterList = retrievedGrid.getClusters();
+		clusterList.remove(retrievedCluster2);
+		retrievedGrid.setClusters(new ArrayList<Cluster>());
+		retrievedGrid.setClusters(clusterList);
+		
+		
+		em.remove(retrievedCluster2);
+		em.getTransaction().commit();
+		
+		
+		//remove grid
+		em.getTransaction().begin();
+		Grid retrGrid = em.find(Grid.class, new Long(2));
+		Cluster retrievedCluster3 = em.find(Cluster.class, new Long(3));
+		Membership retrievedMembership5 = em.find(Membership.class, new Long(5));
+		retrievedCluster3.setGrid(null);
+		retrievedMembership5.setGrid(null);
+		retrGrid.setClusters(new ArrayList<Cluster>());
+		retrGrid.setMembership(new ArrayList<Membership>());
+		em.remove(retrGrid);
+		em.getTransaction().commit();
+		
+		
 	}
 
 

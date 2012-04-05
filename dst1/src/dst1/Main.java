@@ -51,7 +51,8 @@ public class Main {
 		c.createTest();
 		c.retrieveTest();
 		c.updateTest();
-		c.deleteTest();
+		//deleteTest is working, but commented out for the sake of the next exercises.
+		//c.deleteTest();
 	
 	}
 

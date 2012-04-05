@@ -2,8 +2,11 @@ package dst1.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 
 public class Computer implements Serializable{
@@ -64,11 +67,15 @@ public class Computer implements Serializable{
 	public List<Execution> getExecutions() {
 		return executions;
 	}
-	public void setExecutions(List<Execution> executions) {
-		for(Execution e : executions){
-			e.getComputers().add(this);
+	public void setExecutions(List<Execution> executions1) {
+		if(executions1 == null){
+			this.executions = new ArrayList<Execution>();
+		}else{
+			for(Execution e : executions1){
+				e.getComputers().add(this);
+			}
+			this.executions = executions1;
 		}
-		this.executions = executions;
 	}
 	
 	

@@ -32,7 +32,7 @@ public class Execution {
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, optional = true)
 	public Job job;
 	
-	@ManyToMany(cascade = CascadeType.ALL) 
+	@ManyToMany 
 	@JoinTable(name="computer_execution", joinColumns = @JoinColumn(name = "execution_id"),
 										  inverseJoinColumns = @JoinColumn(name = "computer_id"))
 	private List<Computer> computers = new ArrayList<Computer>();
@@ -70,17 +70,24 @@ public class Execution {
 	}
 	public void setJob(Job job) {
 		//setting backreference
-		job.setExecution(this);
+		if(job != null)	job.setExecution(this);
 		this.job = job;
 	}
 	public List<Computer> getComputers() {
 		return computers;
 	}
-	public void setComputers(List<Computer> computers) {
-		for(Computer c : computers){
-			c.getExecutions().add(this);
+	public void setComputers(List<Computer> computers1) {
+		if(computers1 == null){
+			this.computers = new ArrayList<Computer>();
+		}else{
+			
+		
+			for(Computer c : computers1){
+				c.getExecutions().add(this);
+			}
+		
+		this.computers = computers1;
 		}
-		this.computers = computers;
 	}
 	
 	

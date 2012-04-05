@@ -47,14 +47,14 @@ public class Membership {
 		return user;
 	}
 	public void setUser(User user) {
-		user.getMembership().add(this);
+		if(user != null) user.getMembership().add(this);
 		this.user = user;
 	}
 	public Grid getGrid() {
 		return grid;
 	}
 	public void setGrid(Grid grid) {
-		grid.getMembership().add(this);
+		if(grid != null) grid.getMembership().add(this);
 		this.grid = grid;
 	}
 	
