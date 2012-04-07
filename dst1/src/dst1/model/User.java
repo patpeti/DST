@@ -3,14 +3,45 @@ package dst1.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/*
+ * 1.) select user with username that has a membeship in at least one grid:
+ * 
+ * select u from User u JOIN u.membership mem where username like :username
+ * 
+ * select u from User u JOIN u.membership mem where username like :username AND mem.grid.name like :gridname
+ */
+
+
+@NamedQueries({
+	@NamedQuery(
+	name = "UserWithMembership"	,
+	//query = "from User u where username like :username"
+//	query = "select u from User u JOIN u.membership mem " +
+//			"JOIN mem.grid.clusters cl " +
+//			"JOIN cl.childClusters childcl " +
+//			"JOIN cl.computers comps " +
+//			"JOIN comps.executions exec " +
+//			"JOIN exec.job j " +
+//			"GROUP BY u.username " +
+//			"HAVING COUNT(j) > :num"
+	query = "select Count(j) from Job j " +
+			"JOIN j.execution ex " +
+			"JOIN ex.computers comps " +
+			"JOIN comps.cluster cl " +
+			"JOIN cl.parentCluster pcl " +
+			"JOIN pcl.grid g " +
+			"where g.name like :gridname"
+	)
+})
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames={"accountNo","bankCode"})})
 @PrimaryKeyJoinColumn(name="person_id")

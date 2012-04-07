@@ -9,9 +9,8 @@ import org.hibernate.ejb.Ejb3Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dst1.model.Address;
-import dst1.model.User;
 import dst1.refactoring.CrudTest;
+import dst1.refactoring.Queries;
 
 public class Main {
 	
@@ -48,15 +47,19 @@ public class Main {
 
 		
 		CrudTest c = new CrudTest(em);
-		c.createTest();
-		c.retrieveTest();
-		c.updateTest();
+		//c.createTest();
+		//c.retrieveTest();
+		//c.updateTest();
+		
 		//deleteTest is working, but commented out for the sake of the next exercises.
 		//c.deleteTest();
 	
 	}
 
 	public static void dst02a() {
+		Queries q = new Queries(em);
+		q.UserWithMembership();
+		q.MostActiveUser();
 
 	}
 
