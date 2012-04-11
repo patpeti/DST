@@ -13,10 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 import dst1.model.enums.JobStatus;
 
+@NamedQueries({
+	@NamedQuery(
+			name = "TotalUsage"	,
+			query = "select c from Computer c " +
+					"where c.location like 'AUT-VIE' "
+
+			)
+})
 @Entity
 public class Execution {
 

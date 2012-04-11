@@ -3,13 +3,12 @@ package dst1.refactoring;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.persistence.EntityManager;
 
@@ -247,13 +246,43 @@ public class CrudTest {
 		ex5.setStart(new Date());
 		ex5.setEnd(new Date(new Date().getTime()+50000));
 		ex5.setJob(j5);
-		ex5.setStatus(JobStatus.RUNNING);
+		ex5.setStatus(JobStatus.FINISHED);
 		
+		int year = 2011;
+	    int month = 12;
+	    int day = 12;
+
+	    String date = year + "/" + month + "/" + day;
+	    java.util.Date utilDate = null;
+
+	    try {
+	      SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+	      utilDate = formatter.parse(date);
+	      //System.out.println("utilDate:" + utilDate);
+	    } catch (ParseException e) {
+	      System.out.println(e.toString());
+	      e.printStackTrace();
+	    }
+	    
+	    year = 2011;
+	    month = 12;
+	    day = 13;
+	    java.util.Date utilDate2 = null;
+	    
+	    try {
+		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		      utilDate2 = formatter.parse(date);
+		      //System.out.println("utilDate:" + utilDate);
+	    } catch (ParseException e) {
+	      System.out.println(e.toString());
+	      e.printStackTrace();
+	    }
+	    
 		Execution ex6 = new Execution();
-		ex6.setStart(new Date());
-		ex6.setEnd(new Date(new Date().getTime()+60000));
+		ex6.setStart(utilDate);
+		ex6.setEnd(utilDate2);
 		ex6.setJob(j6);
-		ex6.setStatus(JobStatus.RUNNING);
+		ex6.setStatus(JobStatus.FINISHED);
 		
 //		j1.setExecution(ex1);
 //		j2.setExecution(ex2);
@@ -387,11 +416,8 @@ public class CrudTest {
 		
 		Computer c1 = new Computer();
 		c1.setCpus(new Integer(4));
-		c1.setCreation(new Date());
-		List<Execution> exColl1 = new ArrayList<Execution>();
-		exColl1.add(ex5);
-		c1.setExecutions(exColl1);
-		c1.setLastUpdate(new Date());
+		c1.setCreation(new Date(new Date().getTime()-100000));
+		c1.setLastUpdate(new Date(new Date().getTime()-100000));
 		c1.setLocation("AUT-VIE");
 		c1.setName("c1");
 		
@@ -399,8 +425,8 @@ public class CrudTest {
 		
 		Computer c2 = new Computer();
 		c2.setCpus(new Integer(16));
-		c2.setCreation(new Date());
-		c2.setLastUpdate(new Date());
+		c2.setCreation(new Date(new Date().getTime()-100000));
+		c2.setLastUpdate(new Date(new Date().getTime()-100000));
 		c2.setLocation("AUT-VIE");
 		c2.setName("c2");
 		
@@ -408,8 +434,8 @@ public class CrudTest {
 		
 		Computer c3 = new Computer();
 		c3.setCpus(new Integer(32));
-		c3.setCreation(new Date());
-		c3.setLastUpdate(new Date());
+		c3.setCreation(new Date(new Date().getTime()-100000));
+		c3.setLastUpdate(new Date(new Date().getTime()-100000));
 		c3.setLocation("GB-LON");
 		c3.setName("c3");
 		
@@ -417,8 +443,8 @@ public class CrudTest {
 		
 		Computer c4 = new Computer();
 		c4.setCpus(new Integer(32));
-		c4.setCreation(new Date());
-		c4.setLastUpdate(new Date());
+		c4.setCreation(new Date(new Date().getTime()-100000));
+		c4.setLastUpdate(new Date(new Date().getTime()-100000));
 		c4.setLocation("GB-LON");
 		c4.setName("c4");
 		
@@ -426,8 +452,8 @@ public class CrudTest {
 		
 		Computer c5 = new Computer();
 		c5.setCpus(new Integer(32));
-		c5.setCreation(new Date());
-		c5.setLastUpdate(new Date());
+		c5.setCreation(new Date(new Date().getTime()-100000));
+		c5.setLastUpdate(new Date(new Date().getTime()-100000));
 		c5.setLocation("HU-BUD");
 		c5.setName("c5");
 		
@@ -435,8 +461,8 @@ public class CrudTest {
 		
 		Computer c6 = new Computer();
 		c6.setCpus(new Integer(32));
-		c6.setCreation(new Date());
-		c6.setLastUpdate(new Date());
+		c6.setCreation(new Date(new Date().getTime()-100000));
+		c6.setLastUpdate(new Date(new Date().getTime()-100000));
 		c6.setLocation("HU-BUD");
 		c6.setName("c6");
 		
@@ -444,8 +470,8 @@ public class CrudTest {
 		
 		Computer c7 = new Computer();
 		c7.setCpus(new Integer(32));
-		c7.setCreation(new Date());
-		c7.setLastUpdate(new Date());
+		c7.setCreation(new Date(new Date().getTime()-100000));
+		c7.setLastUpdate(new Date(new Date().getTime()-100000));
 		c7.setLocation("HU-BUD");
 		c7.setName("c7");
 		
@@ -453,8 +479,8 @@ public class CrudTest {
 		
 		Computer c8 = new Computer();
 		c8.setCpus(new Integer(32));
-		c8.setCreation(new Date());
-			c8.setLastUpdate(new Date());
+		c8.setCreation(new Date(new Date().getTime()-100000));
+		c8.setLastUpdate(new Date(new Date().getTime()+100000));
 		c8.setLocation("HU-BUD");
 		c8.setName("c8");
 		
@@ -702,7 +728,9 @@ public class CrudTest {
 		
 		
 		User retrievedUser = em.find(User.class, new Long(1));
-		for(Job iJob : retrievedUser.getJobs()){
+		List<Job> tempJobs = new ArrayList<Job>();
+		tempJobs.addAll(retrievedUser.getJobs());
+		for(Job iJob : tempJobs){
 			System.out.println("job id: " +iJob.getId());
 			System.out.println("user id for job: " +iJob.getUser().getId());
 			iJob.setUser(null);
@@ -785,6 +813,17 @@ public class CrudTest {
 		em.remove(retrGrid);
 		em.getTransaction().commit();
 		
+		
+	}
+
+	public void computerUpdate() {
+		em.getTransaction().begin();
+		Computer c = em.find(Computer.class, new Long(2));
+		if(c != null){
+			c.setCpus(7);
+			em.persist(c);
+		}
+		em.getTransaction().commit();
 		
 	}
 

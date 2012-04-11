@@ -2,20 +2,29 @@ package dst1.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
+import javax.persistence.EntityListeners;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import dst1.validator.CPUs;
+
+@EntityListeners(dst1.listener.ComputerListener.class)
 public class Computer implements Serializable{
 	
 	private Long id;
+	@Size(min= 5, max=25, message = "Computer name is invalid")
 	private String name;
+	@CPUs(min = 4, max = 8, message = "Number of CPUs invalid")
 	private Integer cpus;
+	@Pattern(regexp = "[A-Z][A-Z][A-Z]-[A-Z][A-Z][A-Z]@[0-9][0-9][0-9][0-9]", message="Computer location is invalid")
 	private String location;
+	@Past(message="Computer creation must be in the past")
 	private Date creation;
+	@Past(message="Computer lastUpdate must be in the past")
 	private Date lastUpdate;
 	private Cluster cluster;
 	private List<Execution> executions = new ArrayList<Execution>();
@@ -68,14 +77,14 @@ public class Computer implements Serializable{
 		return executions;
 	}
 	public void setExecutions(List<Execution> executions1) {
-		if(executions1 == null){
-			this.executions = new ArrayList<Execution>();
-		}else{
-			for(Execution e : executions1){
-				e.getComputers().add(this);
-			}
+//		if(executions1 == null){
+//			this.executions = new ArrayList<Execution>();
+//		}else{
+//			for(Execution e : executions1){
+//				e.getComputers().add(this);
+//			}
 			this.executions = executions1;
-		}
+//		}
 	}
 	
 	

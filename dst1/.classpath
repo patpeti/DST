@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="E:/tuwien/SS12/DST/dst1_1027183/lib/mysql-connector-java-5.1.11-bin.jar"/>
 	<classpathentry kind="lib" path="E:/tuwien/SS12/DST/dst1_1027183/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="E:/tuwien/SS12/DST/dst1_1027183/lib/slf4j-log4j12-1.6.1.jar"/>
-	<classpathentry kind="lib" path="E:/tuwien/SS12/DST/dst1_1027183/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="E:/tuwien/SS12/DST/dst1_1027183/lib/validation-api-1.0.0.GA.jar" sourcepath="C:/Users/Peter/.m2/repository/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="con" path="E:/tuwien/SS12/DST/dst1_1027183/build"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

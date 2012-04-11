@@ -91,6 +91,10 @@ public class Job implements Serializable {
 
 	public void setUser(User user) {
 		if(user != null) user.getJobs().add(this);
+		if(user == null) {
+			if(this.user != null)
+			this.user.getJobs().remove(this);
+		}
 		this.user = user;
 	}
 

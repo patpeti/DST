@@ -12,35 +12,50 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Index;
+
 /*
- * 1.) select user with username that has a membeship in at least one grid:
- * 
- * select u from User u JOIN u.membership mem where username like :username
  * 
  * select u from User u JOIN u.membership mem where username like :username AND mem.grid.name like :gridname
- */
-
-
-@NamedQueries({
-	@NamedQuery(
-	name = "UserWithMembership"	,
-	//query = "from User u where username like :username"
-//	query = "select u from User u JOIN u.membership mem " +
-//			"JOIN mem.grid.clusters cl " +
-//			"JOIN cl.childClusters childcl " +
-//			"JOIN cl.computers comps " +
-//			"JOIN comps.executions exec " +
-//			"JOIN exec.job j " +
-//			"GROUP BY u.username " +
-//			"HAVING COUNT(j) > :num"
-	query = "select Count(j) from Job j " +
+ * 
+ * number of assigned jobs in a grid:
+ * 
+ * query = "select Count(j) from Job j " +
 			"JOIN j.execution ex " +
 			"JOIN ex.computers comps " +
 			"JOIN comps.cluster cl " +
 			"JOIN cl.parentCluster pcl " +
 			"JOIN pcl.grid g " +
 			"where g.name like :gridname"
-	)
+*/
+
+
+
+
+@NamedQueries({
+	@NamedQuery(
+	name = "UserWithMembership"	,
+	query = "select u from Job j " +
+			"JOIN j.execution ex " +
+			"JOIN ex.computers comps " +
+			"JOIN comps.cluster cl " +
+			"JOIN cl.grid g " +
+			"JOIN j.user u " +
+			"where g.name like :gridname AND EXISTS (select u from User u JOIN u.membership memb where memb.grid.name like :gridname) " +
+			"GROUP BY u.id " +
+			"HAVING Count(DISTINCT j) > :numberofjobs"
+
+	),
+	@NamedQuery(
+			name = "MostActiveUser"	,
+			query = "select u from User u " +
+					"JOIN u.jobs j " +
+					"GROUP BY u.id " +
+					"ORDER BY Count(distinct j)"
+					
+					
+
+			)
 })
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames={"accountNo","bankCode"})})
@@ -56,6 +71,7 @@ public class User extends Person{
 	@Column(nullable = false, unique = true)
 	private String username;
 	@Column(columnDefinition="CHAR(32)")
+	@Index(name="passwordIndex")
 	private byte[] password;
 //	@Embedded
 //	private Address address;
