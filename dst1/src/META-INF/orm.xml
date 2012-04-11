@@ -6,7 +6,7 @@
     <persistence-unit-defaults>
       <entity-listeners>
         <entity-listener class="dst1.listener.SimpleListener" />
-             </entity-listeners>
+      </entity-listeners>
     </persistence-unit-defaults>
   </persistence-unit-metadata>
 </entity-mappings>

@@ -27,13 +27,13 @@ public class SimpleListener {
 	
 
    @PrePersist 
-   public void onPrePersist(Object o) {
+   public synchronized void onPrePersist(Object o) {
 	
 	   this.tempDate = new Date();
 	   
    }
    @PostPersist
-   public void onPostPersist(Object o) {
+   public synchronized void onPostPersist(Object o) {
 	   countPersist++;
 	   
 	   avgPersistTimes.add(new Date().getTime()-this.tempDate.getTime()); 
@@ -44,17 +44,17 @@ public class SimpleListener {
 	   
    }
    @PostLoad
-   public void onPostLoad(Object o) {
+   public synchronized void onPostLoad(Object o) {
 	   countLoad++;
    }
 
    @PostUpdate
-   public void onPostUpdate(Object o) {
+   public synchronized void onPostUpdate(Object o) {
 	   countUpdate++;
    }
  
    @PostRemove
-   public void onPostRemove(Object o) {
+   public synchronized void onPostRemove(Object o) {
 	   countRemove++;
    }
 	   

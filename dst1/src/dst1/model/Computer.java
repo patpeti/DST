@@ -10,6 +10,8 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
+
 import dst1.validator.CPUs;
 
 @EntityListeners(dst1.listener.ComputerListener.class)
@@ -19,8 +21,9 @@ public class Computer implements Serializable{
 	@Size(min= 5, max=25, message = "Computer name is invalid")
 	private String name;
 	@CPUs(min = 4, max = 8, message = "Number of CPUs invalid")
+	@Range
 	private Integer cpus;
-	@Pattern(regexp = "[A-Z][A-Z][A-Z]-[A-Z][A-Z][A-Z]@[0-9][0-9][0-9][0-9]", message="Computer location is invalid")
+	@Pattern(regexp = "[A-Z]{3}-[A-Z]{3}@[0-9]{4}", message="Computer location is invalid")
 	private String location;
 	@Past(message="Computer creation must be in the past")
 	private Date creation;

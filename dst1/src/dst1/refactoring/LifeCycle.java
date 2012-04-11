@@ -29,7 +29,7 @@ public class LifeCycle {
 		em.getTransaction().begin();
 		j = em.find(Job.class, new Long(7));
 		u = em.find(User.class, new Long(1));
-		//State: managed
+		//State: managed (job)
 		//dereference user
 		j.setUser(null);
 		

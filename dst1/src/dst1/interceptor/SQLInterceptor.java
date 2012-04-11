@@ -12,13 +12,13 @@ public class SQLInterceptor extends EmptyInterceptor {
 		
 		// TODO
 		
-		if((sql.contains("select") || sql.contains("SELECT")) &&
+		if((sql.matches("^select.*") || sql.matches("^SELECT.*")) &&
 				(sql.contains("computer") || sql.contains("COMPUTER"))){
 			
 			computerCount++;
 		}
 		
-		if((sql.contains("select") || sql.contains("SELECT")) &&
+		if((sql.matches("^select.*") || sql.matches("^SELECT.*")) &&
 				(sql.contains("execution") || sql.contains("EXECUTION"))){
 			
 			executionCount++;
