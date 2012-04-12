@@ -57,6 +57,7 @@ public class HibernateQuery {
 	    year = 2011;
 	    month = 12;
 	    day = 13;
+	    date = year + "/" + month + "/" + day;
 	    java.util.Date endDate = null;
 	    
 	    try {

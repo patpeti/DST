@@ -50,12 +50,10 @@ public class Queries {
 
 	public void MostActiveUser() {
 		 Query query = em.createNamedQuery("MostActiveUser");
-		 //query.setMaxResults(1);
+		 query.setMaxResults(1);
 		 List<User> uList = (List<User>) query.getResultList();
 		 System.out.println("MostActiveUser(s): ");
-		 int temp = uList.get(0).getJobs().size();
 		 for(User u : uList){
-			 if(u.getJobs().size() == temp)
 			 System.out.println("UserId: " + u.getId() + " Username: " + u.getUsername() + " Jobs: " + u.getJobs().size());
 		 }
  

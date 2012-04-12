@@ -222,7 +222,7 @@ public class CrudTest {
 		ex1.setStart(new Date());
 		ex1.setEnd(new Date(new Date().getTime()+10000));
 		ex1.setJob(j1);
-		ex1.setStatus(JobStatus.SCHEDULED);
+		ex1.setStatus(JobStatus.FINISHED);
 		
 		Execution ex2 = new Execution();
 		ex2.setStart(new Date());
@@ -234,7 +234,7 @@ public class CrudTest {
 		ex3.setStart(new Date());
 		ex3.setEnd(new Date(new Date().getTime()+30000));
 		ex3.setJob(j3);
-		ex3.setStatus(JobStatus.RUNNING);
+		ex3.setStatus(JobStatus.FINISHED);
 		
 		Execution ex4 = new Execution();
 		ex4.setStart(new Date());
@@ -268,7 +268,7 @@ public class CrudTest {
 	    month = 12;
 	    day = 13;
 	    java.util.Date utilDate2 = null;
-	    
+	    date = year + "/" + month + "/" + day;
 	    try {
 		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		      utilDate2 = formatter.parse(date);

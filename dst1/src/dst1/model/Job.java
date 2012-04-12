@@ -51,21 +51,28 @@ public class Job implements Serializable {
 	@Transient
 	public Integer getNumCPUs() {
 		Execution ex = this.getExecution();
-		Collection<Computer> computers = ex.getComputers();
-		Integer sum = 0;
-		for(Computer c : computers){
-			sum += c.getCpus();
-		}
-		return sum;
+		if(ex != null){
+			Collection<Computer> computers = ex.getComputers();
+			Integer sum = 0;
+			for(Computer c : computers){
+				sum += c.getCpus();
+			}
+			return sum;
+		}else
+			return new Integer(0);
 	}
 
 	
 	@Transient
 	public Integer getExecutionTime() {
 		Execution ex = this.getExecution();
-		Long duration = ex.getEnd().getTime() - ex.getStart().getTime();
-		Integer i = duration.intValue();
-		return  i;
+		if(ex != null){
+			Long duration = ex.getEnd().getTime() - ex.getStart().getTime();
+			Integer i = duration.intValue();
+			return  i;
+		}else{
+			return new Integer(0);
+		}
 	}
 
 
