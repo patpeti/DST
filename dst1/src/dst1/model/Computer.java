@@ -23,7 +23,7 @@ public class Computer implements Serializable{
 	@CPUs(min = 4, max = 8, message = "Number of CPUs invalid")
 	@Range
 	private Integer cpus;
-	@Pattern(regexp = "[A-Z]{3}-[A-Z]{3}@[0-9]{4}", message="Computer location is invalid")
+	@Pattern(regexp = "[A-Z]{3}-[A-Z]{3}@[0-9]{4,}", message="Computer location is invalid")
 	private String location;
 	@Past(message="Computer creation must be in the past")
 	private Date creation;

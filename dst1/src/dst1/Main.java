@@ -16,6 +16,7 @@ import dst1.query.Queries;
 import dst1.query.TotalUsageQuery;
 import dst1.refactoring.CrudTest;
 import dst1.refactoring.LifeCycle;
+import dst1.refactoring.NoSQLTest;
 import dst1.validator.Validierung;
 
 public class Main {
@@ -127,13 +128,20 @@ public class Main {
 
         public static void dst05a() {
 
+        	NoSQLTest n = new NoSQLTest(em);
+        	
+        	
         }
 
         public static void dst05b() {
-
+        	
+        	//inside NoSQLTest...
+        	
         }
 
         public static void dst05c() {
-
+        	
+        	
+        	
         }
 }

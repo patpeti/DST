@@ -22,7 +22,7 @@ import dst1.model.enums.JobStatus;
 @NamedQueries({
 	@NamedQuery(
 			name = "TotalUsage"	,
-			query = "select c from Computer c " +
+			query = "select c.id from Computer c " +
 					"where c.location like 'AUT-VIE' "
 
 			)
